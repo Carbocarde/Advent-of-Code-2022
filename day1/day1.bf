@@ -1,4 +1,4 @@
-Good for sums [1, brainfuck's cell_max)
+Good or sums {1; brainfuck's cell_max)
 
 Memory layout
 max | delta | max_copy | input_sum | word_sum | char | marker
