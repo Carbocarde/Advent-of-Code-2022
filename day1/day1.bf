@@ -1,90 +1,102 @@
+Good for sums [1, brainfuck's cell_max)
+
 Memory layout
-max | delta | max_copy | curr_input_sum | word_sum | char | marker
+max | delta | max_copy | input_sum | word_sum | char | marker
 
-                       initialize max (cell #0) to 0
->>>>>>>+
-[-                      use loop to check for new max
-  ~
-  <<+          Move to word_sum cell
+>>>>>>>+ marker cell
+This loop checks the next group of numbers for a new max
+[-
+  <<+ word_sum cell
   [-
-    >,        Load char into memory
-    ----- -----     Check for newline
-    Set marker to 1
-    >+<
-    [
-      ----- -----
-      ----- -----
-      ----- -----
-      ----- ---         Subtract 48 to get the real value
+    Read char
+    >,
 
-      <
+    Check for newline (ascii 10)
+    ----- -----
+    Set marker to 1 to mark if newline
+    >+<
+
+    [
+      Subtract 48 from char to get the integer value
+      ----- -----
+      ----- -----
+      ----- -----
+      ----- ---
+
+      < word_sum cell
+
+      Multiply existing value by 10
       [
         ->+++++ +++++<
-      ]>                Multiply existing value by 10
+      ]
 
-      [-<+>]            Add value to word_sum
-      mark that this was not newline
+      > char cell
+
+      Add value to word_sum
+      [-<+>]
+
+      Mark that this was not newline
       >-<
     ]
+
     Check if newline
-    >
+    > marker cell
     [-
-      Marker to see if word_sum == 0
       +
-      Add word_sum to input sum
-      <<
+      << word_sum cell
       [
+        Add word_sum to input sum
         [-<+>]
         Mark that word_sum != 0
         >>-<<
       ]
-      >>
+      >> marker cell
       [-
         Two newlines in a row | exit loop
         <<->>
       ]
     ]
-    <<+
+    <<+ word_sum cell
   ]
 
-  Compare and replace
+  Compare and replace with new max
+
   <<<< max cell
   [<+>>>+<<-] Copy max
   < temp cell
-  [->+<]    Refill max
-  >> copied cell
+  [->+<] Replace max using temp
+  >> max_copy cell
 
-  Calulate delta
+  Calulate delta between old and new max
   >> input_sum cell
   [
     Check if copied_sum != 0
-    < copied_sum cell
+    < max_copy cell
 
-    Copy copied_sum
+    Copy max_copy
     [-<+<<+>>>]
     <<<
     [->>>+<<<]
     >>>
 
-    Set copied_sum == 0 marker
+    Set max_copy == 0 marker
     >>>>>+<<<<<
     Set markers only once
-    < temp_copied
+    < temp_max_copy cell
     [[-]
-      >>>>>+>-<<<<<< set markers
+      >>>>>+>-<<<<<< set copied_sum == 0 and != 0 markers
     ]
-    >
 
-    >>>>
+    >>>>> max_copy != 0 marker cell
     [-
-      subtract 1 from both
+      Subtract 1 from copied_max and input_sum
       <<<
       -<-
       >>>>
     ]
     > copied_sum == 0 marker
     [-
-      add input_sum remainder to delta
+      Add input_sum remainder to delta
       <<<< input_sum cell
       [-<<+>>]
       >>>>
@@ -102,9 +114,8 @@ max | delta | max_copy | curr_input_sum | word_sum | char | marker
     > copied_sum cell
   ]
 
-  Add delta to max
   < delta cell
+  Add delta to max
   [-<+>]
-  >>>>>+ marker cell
+  >>>>>+ marker cell to get the next batch of numbers
 ]
-> .                     print 'eol'
