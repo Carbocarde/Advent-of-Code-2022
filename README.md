@@ -19,3 +19,5 @@ Brainfuck has 6 keywords
 
 The best IDE I found was [Visual brainfuck](https://sites.google.com/site/visualbf/).
 
+# Day 2:
+Written in Kotlin
