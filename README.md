@@ -21,3 +21,8 @@ The best IDE I found was [Visual brainfuck](https://sites.google.com/site/visual
 
 # Day 2:
 Written in Kotlin
+
+# Day 3:
+Written in Scratch
+
+Run it here: https://scratch.mit.edu/projects/771414140/
