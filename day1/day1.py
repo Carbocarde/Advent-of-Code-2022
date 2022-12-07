@@ -1,20 +1,20 @@
 import heapq
 
 if __name__ == "__main__":
-    line = input("Paste input:")
+    lines = open("input.txt", "r").read().split('\n')
+    it = iter(lines)
+
     heap = []
     running_max = 0
-    while True:
-        if line == "e":  # Input end token
-            heapq.heappush(heap, running_max)
-            break
-        elif line == "":
+    line = next(it, None)
+    while line is not None:  # Has next
+        if line == '':
             heapq.heappush(heap, running_max)
             running_max = 0
         else:
             running_max += int(line)
 
-        line = input()
+        line = next(it, None)
 
-    print("Max 1 sum: ", sum(heapq.nlargest(1, heap)))
-    print("Max 3 sum: ", sum(heapq.nlargest(3, heap)))
+    print(f"Part 1: {sum(heapq.nlargest(1, heap))}")
+    print(f"Part 2: {sum(heapq.nlargest(3, heap))}")
