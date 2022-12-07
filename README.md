@@ -32,3 +32,6 @@ Written in Javascript
 
 # Day 5:
 Written in Python
+
+# Day 6:
+Written in C++
